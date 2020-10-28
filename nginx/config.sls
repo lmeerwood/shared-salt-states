@@ -6,6 +6,8 @@
 
 include:
   - jcu.nginx
+  - jcu.python.pyopenssl
+
 {% for host, config in pillar['nginx']['hosts'].items() %}
 
 {{ host }} web config:
@@ -30,6 +32,8 @@ include:
     - name: tls.create_self_signed_cert
     - CN: {{ host }}
     - ca_name: "ssl"
+    - require:
+      - pkg: pyopenssl
 
 {{ host }} move cert:
   file.rename:
